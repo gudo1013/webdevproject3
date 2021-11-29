@@ -62,41 +62,57 @@ app.get('/neighborhoods', (req, res) => {
 app.get('/incidents', (req, res) => {
     console.log(req.query);
     //db.all('SELECT * from Consumption WHERE year = ? ORDER BY state_abbreviation', [req.params.selected_year], (err, row) => {
-    if(req.query.start_date){
-        db.all('SELECT * from Incidents WHERE date_time >= ' + req.query.start_date + ' LIMIT 1000', (err, row) => {
-            res.send(row);
-        })
-    }
-    else if(req.query.end_date){
-        db.all('SELECT * from Incidents WHERE date_time < ' + req.query.end_date + ' LIMIT 1000', (err, row) => {
-            res.send(row);
-        })
-    }
-    else if(req.query.code){
-        db.all('SELECT * from Incidents WHERE code IN (' + req.query.code + ')', (err, row) => {
-            res.send(row);
-        })
-    }
-    else if(req.query.grid){
-        db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
-            res.send(row);
-        })
-    }
-    else if(req.query.neighborhood){
-        db.all('SELECT * from Incidents WHERE neighborhood_number IN (' + req.query.neighborhood + ')', (err, row) => {
-            res.send(row);
-        })
-    }
-    else if(req.query.limit){
-        db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
-            res.send(row);
-        })
-    }
-    else{
-        db.all('SELECT * from Incidents', (err, row) => {
-            res.send(row);
-        })
-    }
+    
+    let database_promise = new Promise((resolve, reject)=> {
+        if(req.query.start_date){
+            db.all('SELECT * from Incidents WHERE date_time >= ' + req.query.start_date + ' LIMIT 1000', (err, row) => {
+                resolve(row);
+            })
+        }
+        else if(req.query.end_date){
+            db.all('SELECT * from Incidents WHERE date_time < ' + req.query.end_date + ' LIMIT 1000', (err, row) => {
+                resolve(row);
+            })
+        }
+        else if(req.query.code){
+            db.all('SELECT * from Incidents WHERE code IN (' + req.query.code + ')', (err, row) => {
+                resolve(row);
+            })
+        }
+        else if(req.query.grid){
+            db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
+                resolve(row);
+            })
+        }
+        else if(req.query.neighborhood){
+            db.all('SELECT * from Incidents WHERE neighborhood_number IN (' + req.query.neighborhood + ')', (err, row) => {
+                resolve(row);
+            })
+        }
+        else if(req.query.limit){
+            db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
+                resolve(row);
+            })
+        }
+        else{
+            db.all('SELECT * from Incidents', (err, row) => {
+                resolve(row);
+            })
+        }
+    });
+    database_promise.then( (data) => {
+        data.forEach(element => {
+            let date_time_string = '';
+            date_time_string = element.date_time;
+            delete element['date_time'];
+            const array = date_time_string.split('T');
+            element['date'] = array[0];
+            element['time'] = array[1];
+        });
+        
+        res.send(data);
+    })
+    
 });
 
 
