@@ -11,7 +11,7 @@ let port = 8000
 let public_dir = path.join(__dirname, 'public')
 let app = express()
 
-let db_filename = path.join(__dirname, 'stpaul_crime.sqlite3')
+let db_filename = path.join(__dirname, 'db', 'stpaul_crime.sqlite3')
 
 //load in db
 let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {

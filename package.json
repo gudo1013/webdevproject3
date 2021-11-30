@@ -1,5 +1,5 @@
 {
-    "name": "RESTful",
+    "name": "RESTful Web Server",
     "version": "0.0.0",
     "description": "RESTful API for St. Paul criminal database",
     "author": {
@@ -23,7 +23,8 @@
     },
     "dependencies": {
         "express": "^4.17.1",
-        "node.js": "0.0.1-security",
-        "sqlite3": "^5.0.2"
+        "nodejs": "0.0.1-security",
+        "sqlite3": "^5.0.2",
+        "cors": "^2.8.5"
     }
 }
