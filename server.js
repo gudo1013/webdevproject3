@@ -139,15 +139,6 @@ app.get('/incidents', (req, res) => {
 });
 
 app.post('/new-incident', (req, res) => {
-    /*console.log(req.query.case_number);
-    console.log(req.query.date);
-    console.log(req.query.time);
-    console.log(req.query.code);
-    console.log(req.query.incident);
-    console.log(req.query.police_grid);
-    console.log(req.query.neighborhood_number);
-    console.log(req.query.block);
-    console.log(req.body);*/
     db.get("SELECT * FROM Incidents WHERE case_number = ?", [req.query.case_number], (err, row) =>{
         //check if code exists
         if(err)
@@ -161,10 +152,17 @@ app.post('/new-incident', (req, res) => {
         else
         {
             console.log("case not found");
-            db.run("INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES (?,?,?,?,?,?,?,?)", 
-            [req.query.case_number, req.query.date, req.query.time, req.query.code, req.query.incident, req.query.police_grid, req.query.neighborhood_number, req.query.block], (err, row)=>
+            db.run("INSERT INTO Incidents (case_number, date_time, code, incident, police_grid, neighborhood_number, block) VALUES (?,?,?,?,?,?,?)", 
+            [req.query.case_number, req.query.date_time, req.query.code, req.query.incident, req.query.police_grid, req.query.neighborhood_number, req.query.block], (err, row)=>
             {
-                res.status(200).type('txt').send("SUCCESS");
+                if(err)
+                { 
+                    console.log(err);
+                }
+                else
+                {
+                    res.status(200).type('txt').send("SUCCESS");
+                }
             });
         }
     });
@@ -185,10 +183,17 @@ app.delete('/remove-incident', (req, res) => {
         }
         else
         {
-            console.log("case found");
-            db.run("DELETE FROM Incidents WHERE ?", [req.query.case_number],  (err, row)=>
+            console.log("case found" + req.query.case_number);
+            db.run("DELETE FROM Incidents WHERE case_number = ?", [req.query.case_number],  (err, rows)=>
             {
-                res.status(200).type('txt').send("SUCCESS");
+                if(err)
+                {
+                    console.log(err)
+                }
+                else
+                {
+                    res.status(200).type('txt').send("SUCCESS");
+                }
             });
         }
     });
