@@ -64,38 +64,58 @@ app.get('/incidents', (req, res) => {
     //db.all('SELECT * from Consumption WHERE year = ? ORDER BY state_abbreviation', [req.params.selected_year], (err, row) => {
     
     let database_promise = new Promise((resolve, reject)=> {
+
+        let query_string = '';
+        let and_boolean = false;
+
         if(req.query.start_date){
-            db.all('SELECT * from Incidents WHERE date_time >= ' + req.query.start_date + ' LIMIT 1000', (err, row) => {
+            query_string += "date_time >="
+        }
+
+
+
+
+
+
+        if(req.query.start_date){
+            db.all('SELECT * from Incidents WHERE date_time >= \'' + req.query.start_date + '\' ORDER BY date_time LIMIT 1000', (err, row) => {
+                if(err){console.log(err)}
                 resolve(row);
             })
         }
         else if(req.query.end_date){
-            db.all('SELECT * from Incidents WHERE date_time < ' + req.query.end_date + ' LIMIT 1000', (err, row) => {
+            db.all('SELECT * from Incidents WHERE date_time >= \'' + req.query.end_date + '\' ORDER BY date_time LIMIT 1000', (err, row) => {
+                if(err){console.log(err)}
                 resolve(row);
             })
         }
         else if(req.query.code){
             db.all('SELECT * from Incidents WHERE code IN (' + req.query.code + ')', (err, row) => {
+                if(err){console.log(err)}
                 resolve(row);
             })
         }
         else if(req.query.grid){
             db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
+                if(err){console.log(err)}
                 resolve(row);
             })
         }
         else if(req.query.neighborhood){
             db.all('SELECT * from Incidents WHERE neighborhood_number IN (' + req.query.neighborhood + ')', (err, row) => {
+                if(err){console.log(err)}
                 resolve(row);
             })
         }
         else if(req.query.limit){
             db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
+                if(err){console.log(err)}
                 resolve(row);
             })
         }
         else{
             db.all('SELECT * from Incidents', (err, row) => {
+                if(err){console.log(err)}
                 resolve(row);
             })
         }
