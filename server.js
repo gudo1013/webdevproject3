@@ -60,7 +60,6 @@ app.get('/neighborhoods', (req, res) => {
 });
 
 app.get('/incidents', (req, res) => {
-    console.log(req.query);
 
     //For these, have to modify the date_time into different fields
     let database_promise = new Promise((resolve, reject) => {
