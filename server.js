@@ -60,79 +60,79 @@ app.get('/neighborhoods', (req, res) => {
 });
 
 app.get('/incidents', (req, res) => {
-    console.log(req.query);
-    //db.all('SELECT * from Consumption WHERE year = ? ORDER BY state_abbreviation', [req.params.selected_year], (err, row) => {
-    
-    let database_promise = new Promise((resolve, reject)=> {
 
-        let query_string = '';
-        let and_boolean = false;
-
+    //For these, have to modify the date_time into different fields
+    let database_promise = new Promise((resolve, reject) => {
+        let queryString = 'SELECT * FROM Incidents {{{WHERE CLAUSE}}} ORDER BY date_time DESC LIMIT {{{LIMIT AMOUNT}}}';
+        let whereClause = 'WHERE ';
+        let hasPrevClause = false;
+        //Start Date
         if(req.query.start_date){
-            query_string += "date_time >="
+            whereClause += 'date_time >= \'' + req.query.start_date + 'T00:00:00\'';
+            hasPrevClause = true;
         }
-
-
-
-
-
-
-        if(req.query.start_date){
-            db.all('SELECT * from Incidents WHERE date_time >= \'' + req.query.start_date + '\' ORDER BY date_time LIMIT 1000', (err, row) => {
-                if(err){console.log(err)}
-                resolve(row);
-            })
+        //End Date
+        if(req.query.end_date){
+            if(hasPrevClause){
+                whereClause += ' AND ';
+            }
+            whereClause += 'date_time <= \'' + req.query.end_date + 'T11:59:00\'';
+            hasPrevClause = true;
         }
-        else if(req.query.end_date){
-            db.all('SELECT * from Incidents WHERE date_time >= \'' + req.query.end_date + '\' ORDER BY date_time LIMIT 1000', (err, row) => {
-                if(err){console.log(err)}
-                resolve(row);
-            })
+        //Code
+        if(req.query.code){
+            if(hasPrevClause){
+                whereClause += ' AND ';
+            }
+            whereClause += 'code IN (' + req.query.code + ')';
+            hasPrevClause = true;
         }
-        else if(req.query.code){
-            db.all('SELECT * from Incidents WHERE code IN (' + req.query.code + ')', (err, row) => {
-                if(err){console.log(err)}
-                resolve(row);
-            })
+        //Grid
+        if(req.query.grid){
+            if(hasPrevClause){
+                whereClause += ' AND ';
+            }
+            whereClause += 'police_grid IN (' + req.query.grid + ')';
+            hasPrevClause = true;
         }
-        else if(req.query.grid){
-            db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
-                if(err){console.log(err)}
-                resolve(row);
-            })
+        //Neighborhood
+        if(req.query.neighborhood){
+            if(hasPrevClause){
+                whereClause += ' AND ';
+            }
+            whereClause += 'neighborhood_number IN (' + req.query.neighborhoood + ')';
+            hasPrevClause = true;
         }
-        else if(req.query.neighborhood){
-            db.all('SELECT * from Incidents WHERE neighborhood_number IN (' + req.query.neighborhood + ')', (err, row) => {
-                if(err){console.log(err)}
-                resolve(row);
-            })
-        }
-        else if(req.query.limit){
-            db.all('SELECT * from Incidents WHERE police_grid IN (' + req.query.grid + ')', (err, row) => {
-                if(err){console.log(err)}
-                resolve(row);
-            })
+        //Input the where clause if there is one
+        if(whereClause != 'WHERE '){
+            queryString = queryString.replace('{{{WHERE CLAUSE}}}', whereClause);
         }
         else{
-            db.all('SELECT * from Incidents', (err, row) => {
-                if(err){console.log(err)}
-                resolve(row);
-            })
+            queryString = queryString.replace('{{{WHERE CLAUSE}}}', "");
         }
+        //Input the limit amount if there was one
+        if(req.query.limit){
+            queryString = queryString.replace('{{{LIMIT AMOUNT}}}', req.query.limit);
+        }
+        else{
+            queryString = queryString.replace('{{{LIMIT AMOUNT}}}', 1000);
+
+        }
+        db.all(queryString, (err, rows) => {
+            resolve(rows);
+        })
     });
-    database_promise.then( (data) => {
-        data.forEach(element => {
-            let date_time_string = '';
-            date_time_string = element.date_time;
-            delete element['date_time'];
-            const array = date_time_string.split('T');
-            element['date'] = array[0];
-            element['time'] = array[1];
+    database_promise.then((data) => {
+        let newRows = [];
+        data.forEach(row => {
+            let datetime = row['date_time'].split("T");
+            delete row.date_time;
+            row.date = datetime[0];
+            row.time = datetime[1].split('.')[0];
+            newRows.push(row);
         });
-        
-        res.send(data);
-    })
-    
+        res.send(newRows);
+    });
 });
 
 
