@@ -4,12 +4,15 @@ let path = require('path')
 //node modules
 let sqlite3 = require('sqlite3');
 let express = require('express') //npm install express
+let cors = require('cors')
+
 
 //user curl to test i believe
 
 let port = 8000
 let public_dir = path.join(__dirname, 'public')
 let app = express()
+app.use(cors())
 
 let db_filename = path.join(__dirname, 'db', 'stpaul_crime.sqlite3')
 
@@ -134,6 +137,64 @@ app.get('/incidents', (req, res) => {
         res.send(newRows);
     });
 });
+
+app.post('/new-incident', (req, res) => {
+    /*console.log(req.query.case_number);
+    console.log(req.query.date);
+    console.log(req.query.time);
+    console.log(req.query.code);
+    console.log(req.query.incident);
+    console.log(req.query.police_grid);
+    console.log(req.query.neighborhood_number);
+    console.log(req.query.block);
+    console.log(req.body);*/
+    db.get("SELECT * FROM Incidents WHERE case_number = ?", [req.query.case_number], (err, row) =>{
+        //check if code exists
+        if(err)
+        {
+            res.status(404).send("Error 404: error with database");
+        }
+        else if(row != null)
+        {
+            res.status(500).type('txt').send("Error 500: case number " + req.query.case_number + " already exists");
+        }
+        else
+        {
+            console.log("case not found");
+            db.run("INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES (?,?,?,?,?,?,?,?)", 
+            [req.query.case_number, req.query.date, req.query.time, req.query.code, req.query.incident, req.query.police_grid, req.query.neighborhood_number, req.query.block], (err, row)=>
+            {
+                res.status(200).type('txt').send("SUCCESS");
+            });
+        }
+    });
+    res.status(200);
+});
+
+app.delete('/remove-incident', (req, res) => {
+    console.log(req.query.case_number);
+    db.get("SELECT * FROM Incidents WHERE case_number = ?", [req.query.case_number], (err, row) =>{
+        //check if code exists
+        if(err)
+        {
+            res.status(404).send("Error 404: error with database");
+        }
+        else if(row == null)
+        {
+            res.status(500).type('txt').send("Error 500: case number " + req.query.case_number + " does not exists");
+        }
+        else
+        {
+            console.log("case found");
+            db.run("DELETE FROM Incidents WHERE ?", [req.query.case_number],  (err, row)=>
+            {
+                res.status(200).type('txt').send("SUCCESS");
+            });
+        }
+    });
+    res.status(200);
+});
+
 
 
 app.listen(port, () => {
