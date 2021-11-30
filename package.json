@@ -1,0 +1,29 @@
+{
+    "name": "RESTful",
+    "version": "0.0.0",
+    "description": "RESTful API for St. Paul criminal database",
+    "author": {
+        "name": "Jackson Gudorf",
+        "email": "gudo1013@stthomas.edu"
+    },
+    "contributors": [
+        {
+            "name": "Michael Kohorst",
+            "email": "koho1134@stthomas.edu"
+        },
+        {
+            "name": "Brandon Borowiak",
+            "email": "boro8026@stthomas.edu"
+        }
+    ],
+    "main": "server.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/gudo1013/webdevproject3.git"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "node.js": "0.0.1-security",
+        "sqlite3": "^5.0.2"
+    }
+}
