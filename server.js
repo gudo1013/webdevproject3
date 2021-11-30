@@ -76,7 +76,7 @@ app.get('/incidents', (req, res) => {
             if(hasPrevClause){
                 whereClause += ' AND ';
             }
-            whereClause += 'date_time <= \'' + req.query.end_date + 'T11:59:00\'';
+            whereClause += 'date_time <= \'' + req.query.end_date + 'T11:59:59\'';
             hasPrevClause = true;
         }
         //Code
