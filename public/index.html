@@ -22,8 +22,9 @@
 <body onload="init()">
     <!-- Main app -->
 
-    <input type="checkbox" class="codes" id="Homicides/Murder">
-    <label for="Homicides/Murder">Homicides/Murder</label>
+    <h4>Incident Type</h4>
+    <input type="checkbox" class="codes" id="Homicide/Murder">
+    <label for="Homicide/Murder">Homicide/Murder</label>
     <input type="checkbox" class="codes" id="Rape">
     <label for="Rape">Rape</label>
     <input type="checkbox" class="codes" id="Robbery">
@@ -47,7 +48,66 @@
     <input type="checkbox" class="codes" id="Other">
     <label for="Other">Other</label>
 
-    <button type="button" onclick="updateCrimes()">Update</button>
+    <h4>Neighborhoods</h4>
+    <input type="checkbox" class="neigh" id="Conway/Battlecreek/Highwood">
+    <label for="Conway/Battlecreek/Highwood">Conway/Battlecreek/Highwood</label>
+    <input type="checkbox" class="neigh" id="Greater East Side">
+    <label for="Greater East Side">Greater East Side</label>
+    <input type="checkbox" class="neigh" id="West Side">
+    <label for="West Side">West Side</label>
+    <input type="checkbox" class="neigh" id="Dayton's Bluff">
+    <label for="Dayton's Bluff">Dayton's Bluff</label>
+    <input type="checkbox" class="neigh" id="Payne/Phalen">
+    <label for="Payne/Phalen">Payne/Phalen</label>
+    <input type="checkbox" class="neigh" id="North End">
+    <label for="North End">North End</label>
+    <input type="checkbox" class="neigh" id="Thomas/Dale(Frogtown)">
+    <label for="Thomas/Dale(Frogtown)">Thomas/Dale(Frogtown)</label>
+    <input type="checkbox" class="neigh" id="Summit/University">
+    <label for="Summit/University">Summit/University</label>
+    <input type="checkbox" class="neigh" id="West Seventh">
+    <label for="West Seventh">West Seventh</label>
+    <input type="checkbox" class="neigh" id="Como">
+    <label for="Como">Como</label>
+    <input type="checkbox" class="neigh" id="Hamline/Midway">
+    <label for="Hamline/Midway">Hamline/Midway</label>
+    <input type="checkbox" class="neigh" id="St. Anthony">
+    <label for="St. Anthony">St. Anthony</label>
+    <input type="checkbox" class="neigh" id="Union Park">
+    <label for="Union Park">Union Park</label>
+    <input type="checkbox" class="neigh" id="Macalester-Groveland">
+    <label for="Macalester-Groveland">Macalester-Groveland</label>
+    <input type="checkbox" class="neigh" id="Highland">
+    <label for="Highland">Highland</label>
+    <input type="checkbox" class="neigh" id="Summit Hill">
+    <label for="Summit Hill">Summit Hill</label>
+    <input type="checkbox" class="neigh" id="Capitol River">
+    <label for="Capitol River">Capitol River</label>
+
+    <p>
+    <label for="start_date">Start date:</label>
+    <input type="date" id="start_date"
+       min="2014-08-14" max="2021-09-29">
+       
+    <label for="end_date">End date:</label>
+    <input type="date" id="end_date"
+        min="2014-08-14" max="2021-09-29">
+    </p>
+
+    <p>
+        <label for="start_time">Start Time</label>
+        <input type="time" id="start_time">
+
+        <label for="end_time">End Time</label>
+        <input type="time" id="end_time">
+    </p>
+
+    <input type="number" id="limit">
+    <label for="limit">Limit</label>
+
+
+
+    <p><button type="button" onclick="updateCrimes()">Update</button></p>
 
     <div id="app">
         <div id="leafletmap"></div>

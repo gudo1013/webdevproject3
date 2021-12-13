@@ -35,6 +35,25 @@ codeMap.set('Damages', [1400,1401,1410,1415,1416,1420,1425,1426,1430,1435,1436])
 codeMap.set('Narcotics', [1800,1810,1811,1812,1813,1814,1815,1820,1822,1823,1824,1825,1830,1835,1840,1841,1842,1843,1844,1845,1850,1855,1860,1865,1870,1880,1885]);
 codeMap.set('Other', [3100,9959,9986]);
 
+const neighborhoodMap = new Map();
+neighborhoodMap.set('Conway/Battlecreek/Highwood', 1);
+neighborhoodMap.set('Greater East Side', 2);
+neighborhoodMap.set('West Side', 3);
+neighborhoodMap.set('Dayton\'s Bluff', 4);
+neighborhoodMap.set('Payne/Phalen', 5);
+neighborhoodMap.set('North End', 6);
+neighborhoodMap.set('Thomas/Dale(Frogtown)', 7);
+neighborhoodMap.set('Summit/University',8);
+neighborhoodMap.set('West Seventh', 9);
+neighborhoodMap.set('Como',10);
+neighborhoodMap.set('Hamline/Midway',11);
+neighborhoodMap.set('St. Anthony',12);
+neighborhoodMap.set('Union Park', 13);
+neighborhoodMap.set('Macalaster-Groveland',14);
+neighborhoodMap.set('Highland',15);
+neighborhoodMap.set('Summit Hill',16);
+neighborhoodMap.set('Capitol River',17);
+
 
 function init() {
 
@@ -95,15 +114,53 @@ function getJSON(url) {
 }
 
 async function updateCrimes(){
-    let codes = '';
+    let hold = 'code=';
+    let url = '/incidents?';
     let boxes = document.querySelectorAll('.codes');
     boxes.forEach( curr => {
         if(curr.checked){
-            console.log(curr.id);
-            codes += codeMap.get(curr.id).join(',') +',';
+            prevCond = true;
+            hold += codeMap.get(curr.id).join(',') + ',';
         }
     });
-    codes = codes.substring(0, codes.length - 1);
-    let result = await getJSON('/incidents?code=' + codes);
+    if(hold !== 'code='){
+        hold = hold.substring(0, hold.length - 1);
+        url += hold + '&';
+    }
+
+    hold = 'neighborhood=';
+    boxes = document.querySelectorAll('.neigh');
+    boxes.forEach( curr => {
+        if(curr.checked){
+            prevCond = true;
+            hold += neighborhoodMap.get(curr.id) + ',';
+        }
+    });
+    if(hold !== 'neighborhood='){
+        hold = hold.substring(0, hold.length - 1);
+        url += hold + '&';
+    }
+
+    let date = document.getElementById('start_date').value;
+    if(date){
+        url += 'start_date=' + date + '&';
+    }
+    date = document.getElementById('end_date').value;
+    if(date){
+        url += 'end_date=' + date + '&';
+    }
+
+    let time = document.getElementById('start_time').value;
+
+    time = document.getElementById('end_time').value;
+
+    let limit = document.getElementById('limit').value;
+    if(limit){
+        url += 'limit=' + limit + '&';
+    }
+
+    url = url.substring(0, url.length - 1);
+    console.log(url);
+    let result = await getJSON(url);
     console.log(result);
 }
