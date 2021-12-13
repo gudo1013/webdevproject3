@@ -39,14 +39,14 @@
         <input type="text" id="lonform" name="lonform">
         <input type=submit value="Go">
     </form>
-    
+
     <h4>Incident Type</h4>
     <input type="checkbox" class="codes" id="Homicide/Murder">
     <label for="Homicide/Murder">Homicide/Murder</label>
     <input type="checkbox" class="codes" id="Rape">
     <label for="Rape">Rape</label>
     <input type="checkbox" class="codes" id="Robbery">
-    <label for="Other">R</label>
+    <label for="Robbery">Robbery</label>
     <input type="checkbox" class="codes" id="Aggravated Assault">
     <label for="Aggravated Assault">Aggravated Assault</label>
     <input type="checkbox" class="codes" id="Burglary">
@@ -130,5 +130,24 @@
     <div id="app">
         <div id="leafletmap"></div>
     </div>
+
+    <table style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Case Number</th>
+                <th>Type</th>
+                <th>Neighborhood</th>
+                <th>Block</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="body" style="border: 1px solid gray;">
+            
+        </tbody>
+    </table>
+
+    <p><button type="button" onclick="removeTableRows()">Remove</button></p>
+
 </body>
 </html>

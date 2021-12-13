@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/codes', (req, res) => {
-    console.log(req.query.code);
     if(req.query.code){
         db.all('SELECT * from Codes WHERE code IN (' + req.query.code + ') ORDER BY code', (err, row) => {
             res.send(row);
@@ -45,7 +44,6 @@ app.get('/codes', (req, res) => {
 });
 
 app.get('/neighborhoods', (req, res) => {
-    console.log(req.query);
 
     if(req.query.id){
         db.all('SELECT * FROM Neighborhoods WHERE neighborhood_number IN (' + req.query.id + ') ORDER BY neighborhood_number', (err, row) => {
@@ -63,15 +61,14 @@ app.get('/neighborhoods', (req, res) => {
 });
 
 app.get('/incidents', (req, res) => {
-
     //For these, have to modify the date_time into different fields
     let database_promise = new Promise((resolve, reject) => {
-        let queryString = 'SELECT * FROM Incidents {{{WHERE CLAUSE}}} ORDER BY date_time DESC LIMIT {{{LIMIT AMOUNT}}}';
+        let queryString = 'SELECT * FROM Incidents INNER JOIN Neighborhoods ON Incidents.neighborhood_number = Neighborhoods.neighborhood_number JOIN Codes ON Incidents.code = Codes.code {{{WHERE CLAUSE}}} ORDER BY date_time DESC LIMIT {{{LIMIT AMOUNT}}}';
         let whereClause = 'WHERE ';
         let hasPrevClause = false;
         //Start Date
         if(req.query.start_date){
-            whereClause += 'date_time >= \'' + req.query.start_date + 'T00:00:00\'';
+            whereClause += 'Incidents.date_time >= \'' + req.query.start_date + 'T00:00:00\'';
             hasPrevClause = true;
         }
         //End Date
@@ -79,7 +76,7 @@ app.get('/incidents', (req, res) => {
             if(hasPrevClause){
                 whereClause += ' AND ';
             }
-            whereClause += 'date_time <= \'' + req.query.end_date + 'T11:59:59\'';
+            whereClause += 'Incidents.date_time <= \'' + req.query.end_date + 'T11:59:59\'';
             hasPrevClause = true;
         }
         //Code
@@ -87,7 +84,7 @@ app.get('/incidents', (req, res) => {
             if(hasPrevClause){
                 whereClause += ' AND ';
             }
-            whereClause += 'code IN (' + req.query.code + ')';
+            whereClause += 'Incidents.code IN (' + req.query.code + ')';
             hasPrevClause = true;
         }
         //Grid
@@ -95,7 +92,7 @@ app.get('/incidents', (req, res) => {
             if(hasPrevClause){
                 whereClause += ' AND ';
             }
-            whereClause += 'police_grid IN (' + req.query.grid + ')';
+            whereClause += 'Incidents.police_grid IN (' + req.query.grid + ')';
             hasPrevClause = true;
         }
         //Neighborhood
@@ -103,7 +100,7 @@ app.get('/incidents', (req, res) => {
             if(hasPrevClause){
                 whereClause += ' AND ';
             }
-            whereClause += 'neighborhood_number IN (' + req.query.neighborhood + ')';
+            whereClause += 'Incidents.neighborhood_number IN (' + req.query.neighborhood + ')';
             hasPrevClause = true;
         }
         //Input the where clause if there is one
@@ -132,6 +129,26 @@ app.get('/incidents', (req, res) => {
             delete row.date_time;
             row.date = datetime[0];
             row.time = datetime[1].split('.')[0];
+
+            //Get rid of X's within the number in the address if there are any
+            let addr = row['block'];
+            delete row.block;
+            let arr = addr.split(' ');
+            let first = arr[0];
+            if((first.charAt(0) >= '0' && first.charAt(0) <= '9') || first.charAt(0) == 'X'){
+                first = first.replace(/X/g, '0');
+                let newAddr = first + ' ';
+                for(let i = 1; i < arr.length; i++){
+                    newAddr += arr[i];
+                    if(i != arr.length - 1){
+                        newAddr += ' ';
+                    }
+                }
+                row.block = newAddr;
+            }
+            else{
+                row.block = addr;
+            }
             newRows.push(row);
         });
         res.send(newRows);

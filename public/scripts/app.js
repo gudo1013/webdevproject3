@@ -33,7 +33,7 @@ codeMap.set('Assault', [810,861,862,863]);
 codeMap.set('Arson', [900,901,903,905,911,913,915,921,922,923,925,931,933,941,942,951,961,971,972,975,981,982]);
 codeMap.set('Damages', [1400,1401,1410,1415,1416,1420,1425,1426,1430,1435,1436]);
 codeMap.set('Narcotics', [1800,1810,1811,1812,1813,1814,1815,1820,1822,1823,1824,1825,1830,1835,1840,1841,1842,1843,1844,1845,1850,1855,1860,1865,1870,1880,1885]);
-codeMap.set('Other', [3100,9959,9986]);
+codeMap.set('Other', [3100,9954,9959,9986]);
 
 const neighborhoodMap = new Map();
 neighborhoodMap.set('Conway/Battlecreek/Highwood', 1);
@@ -100,6 +100,7 @@ function init() {
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         console.log(result);
+        updateTableRows(result);
     }).catch((error) => {
         console.error('Error:' + error);
     });
@@ -170,6 +171,7 @@ async function updateCrimes(){
     console.log(url);
     let result = await getJSON(url);
     console.log(result);
+    updateTableRows(result);
 }
 
 function locationLookupController(address, lat, lon){
@@ -200,5 +202,64 @@ function searchAddress(address){
         resolve([result[0].lat, result[0].lon]);
         });
     });
-    
+}
+
+function removeTableRows(){
+    let parent = document.getElementById('body');
+    while(parent.firstChild){
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+function updateTableRows(data){
+    removeTableRows();
+
+    let tbody = document.getElementById('body');
+    data.forEach(row =>{
+        let newRow = tbody.insertRow();
+        let newCell = newRow.insertCell();
+        newCell.textContent = row.case_number;
+        newRow.insertCell().textContent = row.incident;
+        newRow.insertCell().textContent = row.neighborhood_name;
+        newRow.insertCell().textContent = row.block;
+        newRow.insertCell().textContent = row.date;
+        newRow.insertCell().textContent = row.time;
+        
+        if(codeMap.get('Homicide/Murder').includes(row.code)){
+            newRow.style = 'background-color: lightgreen;';
+        }
+        else if(codeMap.get('Rape').includes(row.code)){
+            newRow.style = 'background-color: cyan;';
+        }
+        else if(codeMap.get('Robbery').includes(row.code)){
+            newRow.style = 'background-color: purple;';
+        }
+        else if(codeMap.get('Aggravated Assault').includes(row.code)){
+            newRow.style = 'background-color: darkgray;';
+        }
+        else if(codeMap.get('Burglary').includes(row.code)){
+            newRow.style = 'background-color: yellow;';
+        }
+        else if(codeMap.get('Theft').includes(row.code)){
+            newRow.style = 'background-color: orange;';
+        }
+        else if(codeMap.get('Motor Theft').includes(row.code)){
+            newRow.style = 'background-color: lightblue;';
+        }
+        else if(codeMap.get('Assault').includes(row.code)){
+            newRow.style = 'background-color: magenta;';
+        }
+        else if(codeMap.get('Arson').includes(row.code)){
+            newRow.style = 'background-color: red;';
+        }
+        else if(codeMap.get('Damages').includes(row.code)){
+            newRow.style = 'background-color: green;';
+        }
+        else if(codeMap.get('Narcotics').includes(row.code)){
+            newRow.style = 'background-color: coral;'; 
+        }
+        else if(codeMap.get('Other').includes(row.code)){
+            newRow.style = 'background-color: greenyellow;'; 
+        }
+    });
 }
