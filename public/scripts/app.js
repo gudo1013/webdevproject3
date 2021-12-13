@@ -164,8 +164,13 @@ async function updateCrimes(){
     }
 
     let time = document.getElementById('start_time').value;
-
+    if(time){
+        url+= 'start_time=' + time + '&';
+    }
     time = document.getElementById('end_time').value;
+    if(time){
+        url += 'end_time=' + time + '&';
+    }
 
     let limit = document.getElementById('limit').value;
     if(limit){

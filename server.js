@@ -68,7 +68,7 @@ app.get('/incidents', (req, res) => {
         let hasPrevClause = false;
         //Start Date
         if(req.query.start_date){
-            whereClause += 'Incidents.date_time >= \'' + req.query.start_date + 'T00:00:00\'';
+            whereClause += 'date(Incidents.date_time) >= \'' + req.query.start_date + '\'';
             hasPrevClause = true;
         }
         //End Date
@@ -76,7 +76,22 @@ app.get('/incidents', (req, res) => {
             if(hasPrevClause){
                 whereClause += ' AND ';
             }
-            whereClause += 'Incidents.date_time <= \'' + req.query.end_date + 'T11:59:59\'';
+            whereClause += 'date(Incidents.date_time) <= \'' + req.query.end_date + '\'';
+            hasPrevClause = true;
+        }
+        //Start Time
+        if(req.query.start_time){
+            if(hasPrevClause){
+                whereClause += ' AND ';
+            }
+            whereClause += 'time(Incidents.date_time) >= \'' + req.query.start_time + '\'';
+            hasPrevClause = true;
+        }
+        if(req.query.end_time){
+            if(hasPrevClause){
+                whereClause += ' AND ';
+            }
+            whereClause += 'time(Incidents.date_time) <= \'' + req.query.end_time + '\'';
             hasPrevClause = true;
         }
         //Code
