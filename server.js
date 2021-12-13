@@ -103,7 +103,7 @@ app.get('/incidents', (req, res) => {
             if(hasPrevClause){
                 whereClause += ' AND ';
             }
-            whereClause += 'neighborhood_number IN (' + req.query.neighborhoood + ')';
+            whereClause += 'neighborhood_number IN (' + req.query.neighborhood + ')';
             hasPrevClause = true;
         }
         //Input the where clause if there is one
