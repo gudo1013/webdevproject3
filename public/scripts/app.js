@@ -49,8 +49,8 @@ neighborhoodMap.set('Como',10);
 neighborhoodMap.set('Hamline/Midway',11);
 neighborhoodMap.set('St. Anthony',12);
 neighborhoodMap.set('Union Park', 13);
-neighborhoodMap.set('Macalaster-Groveland',14);
-neighborhoodMap.set('Highland',15);
+neighborhoodMap.set('Macalester-Groveland', 14);
+neighborhoodMap.set('Highland', 15);
 neighborhoodMap.set('Summit Hill',16);
 neighborhoodMap.set('Capitol River',17);
 
@@ -95,6 +95,13 @@ function init() {
         });
     }).catch((error) => {
         console.log('Error:', error);
+    });
+
+    //Default to getting the first 1000 records
+    getJSON('/incidents').then((result) => {
+        console.log(result);
+    }).catch((error) => {
+        console.error('Error:' + error);
     });
 }
 
