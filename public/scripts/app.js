@@ -97,6 +97,11 @@ function init() {
         console.log('Error:', error);
     });
 
+    map.on('moveend', function() {
+        console.log(map.getCenter());
+        updateCoordinates(map.getCenter().lat, map.getCenter().lng)
+    });
+
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         console.log(result);
@@ -176,10 +181,7 @@ function locationLookupController(address, lat, lon){
     if(address != ""){
         console.log("Address update");
         searchAddress(address).then((result)=> {
-            $('#latform').val(result[0]);
-            $('#lonform').val(result[1]);
             updateMap(result[0], result[1]);
-            
         });
     }
     else{ //No address, must have lat/lon cords
@@ -192,6 +194,13 @@ function updateMap(lat, lon){
     map.setView([lat, lon], 17);
     console.log("map updated");
     return false;
+}
+
+function updateCoordinates(lat, lon){
+    
+    $('#latform').val(lat);
+    $('#lonform').val(lon);
+    console.log("update2");
 }
 
 function searchAddress(address){
