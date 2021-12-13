@@ -97,15 +97,9 @@ function init() {
         console.log('Error:', error);
     });
 
-<<<<<<< HEAD
     map.on('moveend', function(){
         console.log(map.getCenter());
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
-=======
-    map.on('moveend', function() {
-        console.log(map.getCenter());
-        updateCoordinates(map.getCenter().lat, map.getCenter().lng)
->>>>>>> 0cf81df0bcf5ed8a234385eb3c036a63a9102b85
     });
 
     //Default to getting the first 1000 records
@@ -205,10 +199,6 @@ function updateMap(lat, lon){
 }
 
 function updateCoordinates(lat, lon){
-<<<<<<< HEAD
-=======
-    
->>>>>>> 0cf81df0bcf5ed8a234385eb3c036a63a9102b85
     $('#latform').val(lat);
     $('#lonform').val(lon);
     console.log("update2");
