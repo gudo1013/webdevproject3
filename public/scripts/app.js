@@ -97,10 +97,13 @@ function init() {
         console.log('Error:', error);
     });
 
+    //Update lat/lon on pan
     map.on('moveend', function(){
         console.log(map.getCenter());
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
     });
+
+   
 
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
@@ -109,6 +112,9 @@ function init() {
     }).catch((error) => {
         console.error('Error:' + error);
     });
+    
+    //Create the markers
+    createMarkers();
 }
 
 function getJSON(url) {
@@ -177,6 +183,8 @@ async function updateCrimes(){
     let result = await getJSON(url);
     console.log(result);
     updateTableRows(result);
+    updateMarkers(result);
+    updateCrimeMarkers(result);
 }
 
 function locationLookupController(address, lat, lon){
@@ -211,6 +219,43 @@ function searchAddress(address){
         });
     });
 }
+
+function createMarkers(){
+    let i = 0;
+    for(const key of neighborhoodMap.keys()){
+        let marker = L.marker([neighborhood_markers[i].location[0], neighborhood_markers[i].location[1]], {title: key});
+        neighborhood_markers[i].marker = marker;
+        neighborhood_markers[i].marker.bindPopup( key + " Number of Crimes: 0");
+        neighborhood_markers[i].marker.addTo(map);
+        i++;
+    }
+}
+
+function updateMarkers(data){
+    let totalCrimes = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    for(let i = 0; i < data.length; i++){
+        totalCrimes[data[i].neighborhood_number-1]++;
+    }
+    console.log(neighborhoodMap.keys());
+    //Update markers
+    let i = 0;
+    for(const key of neighborhoodMap.keys()){
+        neighborhood_markers[i].marker.bindPopup(key + " Number of Crimes: " + totalCrimes[i]);
+        i++;
+    }
+    
+}
+
+function updateCrimeMarkers(data){
+    for(let i = 0; i < data.length; i++){
+        searchAddress(data[i].block).then((result) => {
+            L.marker([result[0], result[1], {title: data[i].date + " " + data[i].time + " " + data[i].incident}]).addTo(map);
+        });
+        
+    }
+}
+
+
 
 function removeTableRows(){
     let parent = document.getElementById('body');
