@@ -107,3 +107,34 @@ async function updateCrimes(){
     let result = await getJSON('/incidents?code=' + codes);
     console.log(result);
 }
+
+function locationLookupController(address, lat, lon){
+    if(address != ""){
+        console.log("Address update");
+        searchAddress(address).then((result)=> {
+            $('#latform').val(result[0]);
+            $('#lonform').val(result[1]);
+            updateMap(result[0], result[1]);
+            
+        });
+    }
+    else{ //No address, must have lat/lon cords
+        console.log("Lat/lon update");
+        updateMap(lat, lon);
+    }
+}
+
+function updateMap(lat, lon){
+    map.setView([lat, lon], 17);
+    console.log("map updated");
+    return false;
+}
+
+function searchAddress(address){
+    return new Promise((resolve, reject) => {
+    getJSON("https://nominatim.openstreetmap.org/search?q=" + address.replace(/ /g, '+') + "&format=json&polygon_geojson=1&addressdetails=1").then((result)=> {
+        resolve([result[0].lat, result[0].lon]);
+        });
+    });
+    
+}

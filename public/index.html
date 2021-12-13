@@ -18,10 +18,27 @@
     <!-- Application -->
     <link rel="stylesheet" href="css/style.css"/>
     <script type="application/javascript" src="scripts/app.js"></script>
+    <script type="application/javascript">
+        function submitAddress(){
+            let address = $('#addressform').val();
+            let lat = $('#latform').val();
+            let lon = $('#lonform').val();
+            locationLookupController(address,lat,lon);
+            return false;
+        };
+    </script>
 </head>
 <body onload="init()">
     <!-- Main app -->
-
+    <form action="#" onsubmit="return submitAddress()">
+        <label for="addressform">Address: </label>
+        <input type="text" id="addressform" name="addressform">
+        <label for="latform">Latitude: </label>
+        <input type="text" id="latform" name="latform">
+        <label for="latform">Longitude: </label>
+        <input type="text" id="lonform" name="lonform">
+        <input type=submit>
+    </form>
     <input type="checkbox" class="codes" id="Homicides/Murder">
     <label for="Homicides/Murder">Homicides/Murder</label>
     <input type="checkbox" class="codes" id="Rape">
