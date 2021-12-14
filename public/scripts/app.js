@@ -1,5 +1,6 @@
 let app;
 let map;
+
 let neighborhood_markers = 
 [
     {location: [44.942068, -93.020521], marker: null},
@@ -24,7 +25,7 @@ let neighborhood_markers =
 const codeMap = new Map();
 codeMap.set('Homicide/Murder', [100,110,120]);
 codeMap.set('Rape', [210,220]);
-codeMap.set('Robbery', [311,312,313,314,321,322,323,324,331,333,334,341,342,343,344,351,352,353,354,361,363,364,371,372,373,374]);
+codeMap.set('Robbery', [300,311,312,313,314,321,322,323,324,331,333,334,341,342,343,344,351,352,353,354,361,363,364,371,372,373,374]);
 codeMap.set('Aggravated Assault', [400,410,411,412,420,421,422,430,431,432,440,441,442,450,451,452,453]);
 codeMap.set('Burglary', [500,510,511,513,515,516,520,521,523,525,526,530,531,533,535,536,540,541,543,545,546,550,551,553,555,556,560,561,563,565,566]);
 codeMap.set('Theft', [600,603,611,612,613,614,621,622,623,630,631,632,633,640,641,642,643,651,652,653,661,662,663,671,672,673,681,682,683,691,692,693]);
@@ -33,7 +34,7 @@ codeMap.set('Assault', [810,861,862,863]);
 codeMap.set('Arson', [900,901,903,905,911,913,915,921,922,923,925,931,933,941,942,951,961,971,972,975,981,982]);
 codeMap.set('Damages', [1400,1401,1410,1415,1416,1420,1425,1426,1430,1435,1436]);
 codeMap.set('Narcotics', [1800,1810,1811,1812,1813,1814,1815,1820,1822,1823,1824,1825,1830,1835,1840,1841,1842,1843,1844,1845,1850,1855,1860,1865,1870,1880,1885]);
-codeMap.set('Other', [3100,9954,9959,9986]);
+codeMap.set('Other', [2619,3100,9954,9959,9986]);
 
 const neighborhoodMap = new Map();
 neighborhoodMap.set('Conway/Battlecreek/Highwood', 1);
@@ -53,7 +54,6 @@ neighborhoodMap.set('Macalester-Groveland', 14);
 neighborhoodMap.set('Highland', 15);
 neighborhoodMap.set('Summit Hill',16);
 neighborhoodMap.set('Capitol River',17);
-
 
 function init() {
 
@@ -103,11 +103,8 @@ function init() {
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
     });
 
-   
-
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
-        console.log(result);
         updateTableRows(result);
     }).catch((error) => {
         console.error('Error:' + error);
@@ -185,10 +182,11 @@ async function updateCrimes(){
 
     url = url.substring(0, url.length - 1);
     console.log(url);
-    let result = await getJSON(url);
+    let crimes = await getJSON(url);
     console.log(result);
+
     updateTableRows(result);
-    updateMarkers(result);
+    updateMarkers(crimes);
     updateCrimeMarkers(result);
 }
 
@@ -259,8 +257,6 @@ function updateCrimeMarkers(data){
         
     }
 }
-
-
 
 function removeTableRows(){
     let parent = document.getElementById('body');

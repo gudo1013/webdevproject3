@@ -145,25 +145,25 @@ app.get('/incidents', (req, res) => {
             row.date = datetime[0];
             row.time = datetime[1].split('.')[0];
 
-            //Get rid of X's within the number in the address if there are any
-            let addr = row['block'];
-            delete row.block;
-            let arr = addr.split(' ');
-            let first = arr[0];
-            if((first.charAt(0) >= '0' && first.charAt(0) <= '9') || first.charAt(0) == 'X'){
-                first = first.replace(/X/g, '0');
-                let newAddr = first + ' ';
-                for(let i = 1; i < arr.length; i++){
-                    newAddr += arr[i];
-                    if(i != arr.length - 1){
-                        newAddr += ' ';
-                    }
-                }
-                row.block = newAddr;
-            }
-            else{
-                row.block = addr;
-            }
+            // //Get rid of X's within the number in the address if there are any
+            // let addr = row['block'];
+            // delete row.block;
+            // let arr = addr.split(' ');
+            // let first = arr[0];
+            // if((first.charAt(0) >= '0' && first.charAt(0) <= '9') || first.charAt(0) == 'X'){
+            //     first = first.replace(/X/g, '0');
+            //     let newAddr = first + ' ';
+            //     for(let i = 1; i < arr.length; i++){
+            //         newAddr += arr[i];
+            //         if(i != arr.length - 1){
+            //             newAddr += ' ';
+            //         }
+            //     }
+            //     row.block = newAddr;
+            // }
+            // else{
+            //     row.block = addr;
+            // }
             newRows.push(row);
         });
         res.send(newRows);
@@ -231,8 +231,6 @@ app.delete('/remove-incident', (req, res) => {
     });
     res.status(200);
 });
-
-
 
 app.listen(port, () => {
     console.log('Now listening on port ' + port);
