@@ -250,7 +250,7 @@ function searchAddress(address){
 function createMarkers(){
     let i = 0;
     for(const key of neighborhoodMap.keys()){
-        let marker = L.marker([neighborhood_markers[i].location[0], neighborhood_markers[i].location[1]], {title: key, color: 'yellow'});
+        let marker = L.marker([neighborhood_markers[i].location[0], neighborhood_markers[i].location[1]], {title: key});
         neighborhood_markers[i].marker = marker;
         neighborhood_markers[i].marker.bindPopup( key + " Number of Crimes: 0");
         neighborhood_markers[i].marker.addTo(map);
@@ -277,8 +277,20 @@ function updateCrimeMarkers(data){
     markers = L.layerGroup();
     for(let i = 0; i < data.length; i++){
         searchAddress(data[i].block).then((result) => {
-            //{title: data[i].date + " " + data[i].time + " " + data[i].incident}
-            L.marker([result[0], result[1]], {title: ("" + data[i].date + " " + data[i].time + " " + data[i].incident), icon: crimeIcon}).addTo(markers);
+            //{title: data[i].date + " " + data[i].time + " " + data[i].incident}      title: ("" + data[i].date + " " + data[i].time + " " + data[i].incident),
+            
+            let marker = L.marker([result[0], result[1]], {icon: crimeIcon});
+            let deleteButton = document.createElement('button');
+            let span = document.createElement('span');
+            span.innerText = "" + data[i].date + " " + data[i].time + " " + data[i].incident + " | ";
+            deleteButton.innerText = 'Delete Marker';
+            deleteButton.onclick = function() {
+                map.removeLayer(marker);
+            }
+            span.appendChild(deleteButton);
+            let popup = L.popup();
+            marker.bindPopup(span);
+            marker.addTo(markers);
         }).catch((error)=> {
             console.log("Error: " + error);
         });
