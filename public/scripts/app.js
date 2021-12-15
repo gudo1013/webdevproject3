@@ -108,15 +108,19 @@ function init() {
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
     });
 
+    //Create the markers
+    createMarkers();
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         updateTableRows(result);
+        updateMarkers(result);
     }).catch((error) => {
         console.error('Error:' + error);
     });
+
+
     
-    //Create the markers
-    createMarkers();
+    
 }
 
 function getJSON(url) {
@@ -246,7 +250,7 @@ function searchAddress(address){
 function createMarkers(){
     let i = 0;
     for(const key of neighborhoodMap.keys()){
-        let marker = L.marker([neighborhood_markers[i].location[0], neighborhood_markers[i].location[1]], {title: key});
+        let marker = L.marker([neighborhood_markers[i].location[0], neighborhood_markers[i].location[1]], {title: key, color: 'yellow'});
         neighborhood_markers[i].marker = marker;
         neighborhood_markers[i].marker.bindPopup( key + " Number of Crimes: 0");
         neighborhood_markers[i].marker.addTo(map);
