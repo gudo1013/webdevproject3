@@ -1,5 +1,11 @@
 let app;
 let map;
+let markers = L.layerGroup();
+let crimeIcon = L.icon({
+    iconUrl: '../imgs/map-pin.png',
+    iconSize:     [40, 40], // size of the icon
+});
+
 
 let neighborhood_markers = 
 [
@@ -99,7 +105,6 @@ function init() {
 
     //Update lat/lon on pan
     map.on('moveend', function(){
-        console.log(map.getCenter());
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
     });
 
@@ -183,22 +188,22 @@ async function updateCrimes(){
     url = url.substring(0, url.length - 1);
     console.log(url);
     let crimes = await getJSON(url);
-    console.log(result);
+    //console.log(result);
 
-    updateTableRows(result);
+    updateTableRows(crimes);
     updateMarkers(crimes);
-    updateCrimeMarkers(result);
+    updateCrimeMarkers(crimes);
 }
 
 function locationLookupController(address, lat, lon){
     if(address != ""){
-        console.log("Address update");
         searchAddress(address).then((result)=> {
             updateMap(result[0], result[1]);
+        }).catch((error)=> {
+            console.log("Error: " + error);
         });
     }
     else{ //No address, must have lat/lon cords
-        console.log("Lat/lon update");
         updateMap(lat, lon);
     }
 }
@@ -212,13 +217,28 @@ function updateMap(lat, lon){
 function updateCoordinates(lat, lon){
     $('#latform').val(lat);
     $('#lonform').val(lon);
-    console.log("update2");
 }
 
 function searchAddress(address){
     return new Promise((resolve, reject) => {
-    getJSON("https://nominatim.openstreetmap.org/search?q=" + address.replace(/ /g, '+') + "&format=json&polygon_geojson=1&addressdetails=1").then((result)=> {
-        resolve([result[0].lat, result[0].lon]);
+    if(!isNaN(address[0])){
+        let i = 1;
+        while(!isNaN(address[i]) || address[i] === 'X'){    
+            if(address[i] === 'X'){
+                address = address.replace('X', '0');
+            }
+            i++;
+        }
+    }
+    getJSON("https://nominatim.openstreetmap.org/search?q=" + address.replace(/ /g, '+') + ",Saint+Paul,MN&format=json&polygon_geojson=1&addressdetails=1").then((result)=> {
+        if(result[0] != undefined){
+            resolve([result[0].lat, result[0].lon]);
+        }
+        else{
+            reject("Address Search Failed");
+        }
+        }).catch((error)=> {
+            console.log(error);
         });
     });
 }
@@ -239,7 +259,6 @@ function updateMarkers(data){
     for(let i = 0; i < data.length; i++){
         totalCrimes[data[i].neighborhood_number-1]++;
     }
-    console.log(neighborhoodMap.keys());
     //Update markers
     let i = 0;
     for(const key of neighborhoodMap.keys()){
@@ -250,10 +269,17 @@ function updateMarkers(data){
 }
 
 function updateCrimeMarkers(data){
+    markers.clearLayers();
+    markers = L.layerGroup();
     for(let i = 0; i < data.length; i++){
         searchAddress(data[i].block).then((result) => {
-            L.marker([result[0], result[1], {title: data[i].date + " " + data[i].time + " " + data[i].incident}]).addTo(map);
+            //{title: data[i].date + " " + data[i].time + " " + data[i].incident}
+            L.marker([result[0], result[1]], {title: ("" + data[i].date + " " + data[i].time + " " + data[i].incident), icon: crimeIcon}).addTo(markers);
+        }).catch((error)=> {
+            console.log("Error: " + error);
         });
+        markers.addTo(map);
+        
         
     }
 }
