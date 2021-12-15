@@ -6,6 +6,8 @@ let crimeIcon = L.icon({
     iconSize:     [40, 40], // size of the icon
 });
 
+let firstTable;
+
 
 let neighborhood_markers = 
 [
@@ -112,9 +114,15 @@ function init() {
     createMarkers();
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
-        updateTableRows(result);
-        tableUpdate(result);
         updateMarkers(result);
+
+        firstTable = new Vue({
+            el: '#firstTable',
+            data: {
+                headers: ["case_number", "incident", "neighborhood_name", "block", "data", "time"],
+                rows: result
+            }
+        });
     }).catch((error) => {
         console.error('Error:' + error);
     });
@@ -122,26 +130,6 @@ function init() {
 
     
     
-}
-
-function tableUpdate(result)
-{
-    var firstTable = new Vue({
-        el: '#firstTable',
-        data: {
-            headers: ["case_number", "type", "neighborhood_name", "block", "data", "time"],
-            rows: []
-        },
-        methods: {
-            add: function(item) {
-                this.rows.push(item);
-            }
-        }
-      });
-    for(i = 0; i < result.length; i++)
-    {
-        firstTable.add({case_number: result[i].case_number, type: result[i].incident ,neighborhood_name: result[i].neighborhood_name,block: result[i].block,date: result[i].date, time: result[i].time});
-    }
 }
 
 function getJSON(url) {
@@ -215,7 +203,9 @@ async function updateCrimes(){
     let crimes = await getJSON(url);
     //console.log(result);
 
-    updateTableRows(crimes);
+    firstTable.rows = crimes;
+
+    // updateTableRows(crimes);
     updateMarkers(crimes);
     tableUpdate(crimes);
     //updateCrimeMarkers(crimes);
