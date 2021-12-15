@@ -38,10 +38,6 @@
     </div>
     <a class="button" href="about.html" style="position: absolute; top: 1%; right: 1%; width: 4%;">About</a>
 
-    <div id="app">
-        {{ message }}
-    </div>
-
     <!-- Main app -->
     <h2 style="padding-left: 1%;">Location</h2>
     <div class="grid-container">
@@ -68,7 +64,7 @@
         <div class="columns">
             <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
                 <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title">Incident Type</a>
+                    <a href="#" class="accordion-title" style="font-size: 1.25rem;">Incident Type</a>
                     <div class="accordion-content" data-tab-content >
                         <div class="grid-container">
                             <div class="grid-x grid-padding-x">
@@ -125,7 +121,7 @@
                     </div>
                 </li>
                 <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title">Neighborhoods</a>
+                    <a href="#" class="accordion-title" style="font-size: 1.25rem;">Neighborhoods</a>
                     <div class="accordion-content" data-tab-content>
                         <div class="grid-container">
                             <div class="grid-x grid-padding-x">
@@ -202,7 +198,7 @@
                     </div>
                 </li>
                 <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title">Other Filters</a>
+                    <a href="#" class="accordion-title" style="font-size: 1.25rem;">Other Filters</a>
                     <div class="accordion-content" data-tab-content>
                         <div class="grid-container">
                             <div class="grid-x grid-padding-x">
@@ -246,7 +242,26 @@
             <div id="leafletmap"></div>
         </div>
 
-        <h2 style="padding-left: 1%;">Data</h2>
+        <div class="reveal" id="legendModal" data-reveal>
+            <div class="legendElem" style="background-color: lightgreen; margin-top: 1.1rem;">Homicide/Murder</div>
+            <div class="legendElem" style="background-color: cyan;  margin-top: 1.1rem;">Rape</div>
+            <div class="legendElem" style="background-color: purple;">Robbery</div>
+            <div class="legendElem" style="background-color: darkgray;">Aggravated Assault</div>
+            <div class="legendElem" style="background-color: yellow;">Burglary</div>
+            <div class="legendElem" style="background-color: orange;">Theft</div>
+            <div class="legendElem" style="background-color: lightblue;">Motor Theft</div>
+            <div class="legendElem" style="background-color: magenta;">Assault</div>
+            <div class="legendElem" style="background-color: red;">Arson</div>
+            <div class="legendElem" style="background-color: green;">Damages</div>
+            <div class="legendElem" style="background-color: coral;">Narcotics</div>
+            <div class="legendElem" style="background-color: greenyellow;">Other</div>
+
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <h2 style="padding-left: 1%;">Data  <a class="button" data-open="legendModal">Legend</a> </h2>
         <div style="margin-left: 2%; margin-right: 2%;">
         <table class="unstriped" style="border-collapse: collapse;">
             <thead>

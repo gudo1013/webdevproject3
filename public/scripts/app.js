@@ -377,7 +377,7 @@ function updateTableRows(data){
         let newRow = tbody.insertRow();
         let newCell = newRow.insertCell();
         newCell.textContent = row.case_number;
-        newRow.insertCell().textContent = row.incident;
+        newRow.insertCell().textContent = row.incident_type;
         newRow.insertCell().textContent = row.neighborhood_name;
         newRow.insertCell().textContent = row.block;
         newRow.insertCell().textContent = row.date;
