@@ -1,0 +1,85 @@
+html,body{
+    height: 100vh;
+    width: 98vw;
+}
+.largeHeader{
+    background: #424242;
+    color: white;
+    font-size: 1.5rem;
+    height: 12vh;
+}
+
+.smallHeader{
+    background: #424242;
+    color: white;
+    font-size: 2rem;
+    height: 6vh;
+}
+
+.navigation{
+    text-align: center;
+    color: skyblue;
+}
+.navigation:hover{
+    text-align: center;
+    color: #0392a8;
+}
+
+.info{
+    background-color: white;
+    float: left;
+    width: 92vw;
+    min-height: 88vh;
+    margin-left: 4vw;
+    margin-right: 4vw;
+}
+
+.projectItem{
+    padding-left: 2%;
+    padding-bottom: .5%;
+    border-bottom: 1px solid #424242;
+}
+
+.resumeItem{
+    font-size: 1.5rem;
+    padding-top: 1.5%;
+    padding-right: 3%;
+    padding-left: 3%;
+    display: inline-block;
+}
+
+.funItem{
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    padding-right: 3%;
+    padding-left: 3%;
+    display: inline-block;
+    border-bottom: 1px solid #424242;
+}
+
+
+ul,li{
+    font-size: 1.3rem;
+}
+
+u{
+    color: skyblue;
+}
+
+.center{
+    text-align: center;
+}
+
+.sudokuCell{
+    text-align: center;
+    width:2rem;
+    height:2rem;
+}
+
+input[type="text"]{
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid lightgray;
+    margin: 0;
+    float: left;
+}
