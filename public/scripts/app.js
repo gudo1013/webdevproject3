@@ -113,6 +113,7 @@ function init() {
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         updateTableRows(result);
+        tableUpdate(result);
         updateMarkers(result);
     }).catch((error) => {
         console.error('Error:' + error);
@@ -121,6 +122,26 @@ function init() {
 
     
     
+}
+
+function tableUpdate(result)
+{
+    var firstTable = new Vue({
+        el: '#firstTable',
+        data: {
+            headers: ["case_number", "type", "neighborhood_name", "block", "data", "time"],
+            rows: []
+        },
+        methods: {
+            add: function(item) {
+                this.rows.push(item);
+            }
+        }
+      });
+    for(i = 0; i < result.length; i++)
+    {
+        firstTable.add({case_number: result[i].case_number, type: result[i].incident ,neighborhood_name: result[i].neighborhood_name,block: result[i].block,date: result[i].date, time: result[i].time});
+    }
 }
 
 function getJSON(url) {
@@ -196,7 +217,8 @@ async function updateCrimes(){
 
     updateTableRows(crimes);
     updateMarkers(crimes);
-    updateCrimeMarkers(crimes);
+    tableUpdate(crimes);
+    //updateCrimeMarkers(crimes);
 }
 
 function locationLookupController(address, lat, lon){
@@ -297,6 +319,46 @@ function updateCrimeMarkers(data){
         markers.addTo(map);
         
         
+    }
+}
+
+function codeType(code)
+{
+    if(codeMap.get('Homicide/Murder').includes(row.code)){
+        newRow.style = 'background-color: lightgreen;';
+    }
+    else if(codeMap.get('Rape').includes(row.code)){
+        newRow.style = 'background-color: cyan;';
+    }
+    else if(codeMap.get('Robbery').includes(row.code)){
+        newRow.style = 'background-color: purple;';
+    }
+    else if(codeMap.get('Aggravated Assault').includes(row.code)){
+        newRow.style = 'background-color: darkgray;';
+    }
+    else if(codeMap.get('Burglary').includes(row.code)){
+        newRow.style = 'background-color: yellow;';
+    }
+    else if(codeMap.get('Theft').includes(row.code)){
+        newRow.style = 'background-color: orange;';
+    }
+    else if(codeMap.get('Motor Theft').includes(row.code)){
+        newRow.style = 'background-color: lightblue;';
+    }
+    else if(codeMap.get('Assault').includes(row.code)){
+        newRow.style = 'background-color: magenta;';
+    }
+    else if(codeMap.get('Arson').includes(row.code)){
+        newRow.style = 'background-color: red;';
+    }
+    else if(codeMap.get('Damages').includes(row.code)){
+        newRow.style = 'background-color: green;';
+    }
+    else if(codeMap.get('Narcotics').includes(row.code)){
+        newRow.style = 'background-color: coral;'; 
+    }
+    else if(codeMap.get('Other').includes(row.code)){
+        newRow.style = 'background-color: greenyellow;'; 
     }
 }
 

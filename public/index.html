@@ -270,6 +270,29 @@
                 </tr> -->
             </tbody>
         </table>
+
+        <table id="firstTable">
+            <thead>
+              <tr>
+                <th>Case Number</th>
+                <th>Type</th>
+                <th>Neighborhood</th>
+                <th>Block</th>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in rows">
+                <td>{{row.case_number}}</td>
+                <td>{{row.type}}</td>
+                <td>{{row.neighborhood_name}}</td>
+                <td>{{row.block}}</td>
+                <td>{{row.date}}</td>
+                <td>{{row.time}}</td>
+              </tr>
+            </tbody>
+        </table>
         </div>
     </div>
 
