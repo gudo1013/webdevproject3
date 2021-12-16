@@ -95,8 +95,6 @@ function init() {
                 Vue.set(this.rows, 0, crimes);
             },
             addMarker: function(crime){
-                console.log('clicked');
-                console.log(crime);
                 updateCrimeMarkers(crime);
             }
         }
@@ -251,11 +249,9 @@ async function updateCrimes(visibleNeighborhoods){
     }
 
     url = url.substring(0, url.length - 1);
-    console.log(url);
     let crimes = await getJSON(url);
     //console.log(result);
 
-    console.log(crimes);
     //Vue.set(firstTable.data.rows, 0, crimes);
 
     firstTable.updateData(crimes)
@@ -272,7 +268,6 @@ function locationLookupController(address, lat, lon){
             updateMap(result[0], result[1]);
         }).catch((error)=> {
             alert("Address does not turn up a valid search");
-            console.log("Error: " + error);
         });
     }
     else{ //No address, must have lat/lon cords
@@ -282,7 +277,6 @@ function locationLookupController(address, lat, lon){
 
 function updateMap(lat, lon){
     map.setView([lat, lon], 17);
-    console.log("map updated");
     return false;
 }
 
