@@ -3,9 +3,77 @@
     height: 600px; /* feel free to change this! */
 }
 
+table{
+    border: 1px solid black;
+    margin-top: 1rem;
+    border-collapse: collapse;
+    width:90%;
+}
+
+th{
+    font-size: 1.5rem;
+    padding-left: 0.5rem;
+    background-color:#e6eeff;
+    text-align: left;
+    border-bottom: 1px solid black;
+}
+
+tr td{
+    padding: .5rem;
+}
+
 .legendElem{
-    width: 50%; 
+    min-width:8%;
+    max-width: 10%; 
     float: left; 
     border: 1px solid black; 
     padding: .5rem;
+}
+
+.homicide{
+    background-color: lightgreen;
+}
+
+.rape{
+    background-color: cyan;
+}
+
+.robbery{
+    background-color: purple;
+}
+
+.aggravated_assault{
+    background-color: darkgray;
+}
+
+.burglary{
+    background-color: yellow;
+}
+
+.theft{
+    background-color: orange;
+}
+
+.motor_theft{
+    background-color: lightblue;
+}
+
+.assault{
+    background-color: magenta;
+}
+
+.arson{
+    background-color: red;
+}
+
+.damages{
+    background-color: green;
+}
+
+.narcotics{
+    background-color: coral;
+}
+
+.other{
+    background-color: greenyellow;
 }

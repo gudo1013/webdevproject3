@@ -3055,7 +3055,7 @@ a.button:hover, a.button:focus {
   .switch.large input:checked ~ .switch-paddle::after {
     left: 2.75rem; }
 
-table {
+/* table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1rem;
@@ -3095,7 +3095,7 @@ table {
     table.unstriped tbody tr {
       border-bottom: 0;
       border-bottom: 1px solid #f1f1f1;
-      background-color: #fefefe; }
+      background-color: #fefefe; } */
 
 @media print, screen and (max-width: 63.99875em) {
   table.stack thead {
