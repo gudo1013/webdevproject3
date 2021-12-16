@@ -7,6 +7,11 @@ let crimeIcon = L.icon({
 });
 
 let firstTable;
+<<<<<<< HEAD
+=======
+let thirdTable;
+
+>>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 let neighborhood_markers = 
 [
     {location: [44.942068, -93.020521], marker: null},
@@ -82,6 +87,23 @@ function init() {
             }
         }
     });
+    firstTable = new Vue({
+        el: '#firstTable',
+        data: {
+            headers: ["case_number", "incident", "neighborhood_name", "block", "data", "time"],
+            rows: []
+        },
+        methods:{
+            updateData: function(crimes){
+                Vue.set(this.rows, 0, crimes);
+            },
+            addMarker: function(crime){
+                console.log('clicked');
+                console.log(crime);
+                updateCrimeMarkers(crime);
+            }
+        }
+    });
 
     map = L.map('leafletmap').setView([app.map.center.lat, app.map.center.lng], app.map.zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -103,16 +125,22 @@ function init() {
         console.log('Error:', error);
     });
 
+    let visibleNeighborhoods = [];
     //Update lat/lon on pan
     map.on('moveend', function(){
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
+        for(let i = 0; i < neighborhood_markers; i++){
+            if(map.
+        }
     });
 
     //Create the markers
     createMarkers();
+    let temp;
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         updateMarkers(result);
+<<<<<<< HEAD
         result.forEach( (row) => {
             row['style'] = getStyleClass(row.code);
         });
@@ -125,6 +153,14 @@ function init() {
     }).catch((error) => {
         console.error('Error:' + error);
     });
+=======
+        firstTable.updateData(result);
+        
+    }).catch((error) => {
+        console.error('Error:' + error);
+    });
+
+>>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 }
 
 function getJSON(url) {
@@ -195,13 +231,27 @@ async function updateCrimes(){
 
     url = url.substring(0, url.length - 1);
     let crimes = await getJSON(url);
+<<<<<<< HEAD
     crimes.forEach( crime => {
         crime['style'] = getStyleClass(crime.code);
         console.log(crime);
     });
     firstTable.rows = crimes;
+=======
+    //console.log(result);
+
+    console.log(crimes);
+    //Vue.set(firstTable.data.rows, 0, crimes);
+
+    firstTable.updateData(crimes)
+>>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 
     updateMarkers(crimes);
+<<<<<<< HEAD
+=======
+    //tableUpdate(crimes);
+    //updateCrimeMarkers(crimes);
+>>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 }
 
 function locationLookupController(address, lat, lon){
@@ -278,8 +328,8 @@ function updateMarkers(data){
 }
 
 function updateCrimeMarkers(data){
-    markers.clearLayers();
     markers = L.layerGroup();
+<<<<<<< HEAD
     for(let i = 0; i < data.length; i++){
         searchAddress(data[i].block).then((result) => {
             let marker = L.marker([result[0], result[1]], {icon: crimeIcon});
@@ -299,6 +349,27 @@ function updateCrimeMarkers(data){
         });
         markers.addTo(map);
     }
+=======
+    searchAddress(data.block).then((result) => {
+        //{title: data[i].date + " " + data[i].time + " " + data[i].incident}      title: ("" + data[i].date + " " + data[i].time + " " + data[i].incident),
+        
+        let marker = L.marker([result[0], result[1]], {icon: crimeIcon});
+        let deleteButton = document.createElement('button');
+        let span = document.createElement('span');
+        span.innerText = "" + data.date + " " + data.time + " " + data.incident + " | ";
+        deleteButton.innerText = 'Delete Marker';
+        deleteButton.onclick = function() {
+            map.removeLayer(marker);
+        }
+        span.appendChild(deleteButton);
+        let popup = L.popup();
+        marker.bindPopup(span);
+        marker.addTo(markers);
+    }).catch((error)=> {
+        console.log("Error: " + error);
+    });
+    markers.addTo(map);
+>>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 }
 
 function getStyleClass(code)
