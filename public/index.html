@@ -63,9 +63,7 @@
     <div class="row">
         <div class="columns">
             <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
-                <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title" style="font-size: 1.25rem;">Incident Type</a>
-                    <div class="accordion-content" data-tab-content >
+                
                         <div class="grid-container">
                             <div class="grid-x grid-padding-x">
                                 <div class="cell medium-3">
@@ -117,12 +115,8 @@
                                     <label for="Other">Other</label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title" style="font-size: 1.25rem;">Neighborhoods</a>
-                    <div class="accordion-content" data-tab-content>
+                        
+               
                         <div class="grid-container">
                             <div class="grid-x grid-padding-x">
                                 <div class="cell medium-3">
@@ -194,12 +188,8 @@
                                     <label for="West Side">West Side</label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                    <a href="#" class="accordion-title" style="font-size: 1.25rem;">Other Filters</a>
-                    <div class="accordion-content" data-tab-content>
+                        
+                
                         <div class="grid-container">
                             <div class="grid-x grid-padding-x">
                                 <div class="cell medium-6">
@@ -225,9 +215,7 @@
                                     <input type="number" id="limit">
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </li>
+                       </li>
             </ul>
         </div>
     </div>
@@ -291,13 +279,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="row in rows">
+              <tr v-for="row in rows[0]" :key='row.case_number'>
                 <td>{{row.case_number}}</td>
                 <td>{{row.type}}</td>
                 <td>{{row.neighborhood_name}}</td>
                 <td>{{row.block}}</td>
                 <td>{{row.date}}</td>
                 <td>{{row.time}}</td>
+                <td><button v-on:click="addMarker(row)">Add</button></td>
               </tr>
             </tbody>
         </table>
@@ -306,7 +295,7 @@
 
     <script src="scripts/foundation/jquery-3.6.0.min.js"></script>
     <script src="scripts/foundation/vendor.js"></script>
-    <script src="scripts/foundation/foundation.js"></script>
+    <!--script src="scripts/foundation/foundation.js"></script-->
     <script type="application/javascript">
         $(document).foundation();
     </script>

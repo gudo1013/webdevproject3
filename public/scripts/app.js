@@ -7,7 +7,7 @@ let crimeIcon = L.icon({
 });
 
 let firstTable;
-
+let thirdTable;
 
 let neighborhood_markers = 
 [
@@ -84,6 +84,23 @@ function init() {
             }
         }
     });
+    firstTable = new Vue({
+        el: '#firstTable',
+        data: {
+            headers: ["case_number", "incident", "neighborhood_name", "block", "data", "time"],
+            rows: []
+        },
+        methods:{
+            updateData: function(crimes){
+                Vue.set(this.rows, 0, crimes);
+            },
+            addMarker: function(crime){
+                console.log('clicked');
+                console.log(crime);
+                updateCrimeMarkers(crime);
+            }
+        }
+    });
 
     map = L.map('leafletmap').setView([app.map.center.lat, app.map.center.lng], app.map.zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -105,31 +122,27 @@ function init() {
         console.log('Error:', error);
     });
 
+    let visibleNeighborhoods = [];
     //Update lat/lon on pan
     map.on('moveend', function(){
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
+        for(let i = 0; i < neighborhood_markers; i++){
+            if(map.
+        }
     });
 
     //Create the markers
     createMarkers();
+    let temp;
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         updateMarkers(result);
-
-        firstTable = new Vue({
-            el: '#firstTable',
-            data: {
-                headers: ["case_number", "incident", "neighborhood_name", "block", "data", "time"],
-                rows: result
-            }
-        });
+        firstTable.updateData(result);
+        
     }).catch((error) => {
         console.error('Error:' + error);
     });
 
-
-    
-    
 }
 
 function getJSON(url) {
@@ -203,11 +216,14 @@ async function updateCrimes(){
     let crimes = await getJSON(url);
     //console.log(result);
 
-    firstTable.rows = crimes;
+    console.log(crimes);
+    //Vue.set(firstTable.data.rows, 0, crimes);
+
+    firstTable.updateData(crimes)
 
     // updateTableRows(crimes);
     updateMarkers(crimes);
-    tableUpdate(crimes);
+    //tableUpdate(crimes);
     //updateCrimeMarkers(crimes);
 }
 
@@ -285,31 +301,26 @@ function updateMarkers(data){
 }
 
 function updateCrimeMarkers(data){
-    markers.clearLayers();
     markers = L.layerGroup();
-    for(let i = 0; i < data.length; i++){
-        searchAddress(data[i].block).then((result) => {
-            //{title: data[i].date + " " + data[i].time + " " + data[i].incident}      title: ("" + data[i].date + " " + data[i].time + " " + data[i].incident),
-            
-            let marker = L.marker([result[0], result[1]], {icon: crimeIcon});
-            let deleteButton = document.createElement('button');
-            let span = document.createElement('span');
-            span.innerText = "" + data[i].date + " " + data[i].time + " " + data[i].incident + " | ";
-            deleteButton.innerText = 'Delete Marker';
-            deleteButton.onclick = function() {
-                map.removeLayer(marker);
-            }
-            span.appendChild(deleteButton);
-            let popup = L.popup();
-            marker.bindPopup(span);
-            marker.addTo(markers);
-        }).catch((error)=> {
-            console.log("Error: " + error);
-        });
-        markers.addTo(map);
+    searchAddress(data.block).then((result) => {
+        //{title: data[i].date + " " + data[i].time + " " + data[i].incident}      title: ("" + data[i].date + " " + data[i].time + " " + data[i].incident),
         
-        
-    }
+        let marker = L.marker([result[0], result[1]], {icon: crimeIcon});
+        let deleteButton = document.createElement('button');
+        let span = document.createElement('span');
+        span.innerText = "" + data.date + " " + data.time + " " + data.incident + " | ";
+        deleteButton.innerText = 'Delete Marker';
+        deleteButton.onclick = function() {
+            map.removeLayer(marker);
+        }
+        span.appendChild(deleteButton);
+        let popup = L.popup();
+        marker.bindPopup(span);
+        marker.addTo(markers);
+    }).catch((error)=> {
+        console.log("Error: " + error);
+    });
+    markers.addTo(map);
 }
 
 function codeType(code)
