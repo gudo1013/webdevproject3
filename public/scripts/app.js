@@ -126,9 +126,15 @@ function init() {
     //Update lat/lon on pan
     map.on('moveend', function(){
         updateCoordinates(map.getCenter().lat, map.getCenter().lng);
-        for(let i = 0; i < neighborhood_markers; i++){
-            if(map.
+        visibleNeighborhoods=[];
+        for(let i = 0; i < neighborhood_markers.length; i++){
+            if(map.getBounds().contains(neighborhood_markers[i].location))
+            {
+                visibleNeighborhoods.push(i+1);
+            }
         }
+       updateCrimes(visibleNeighborhoods);
+       
     });
 
     //Create the markers
@@ -160,7 +166,7 @@ function getJSON(url) {
     });
 }
 
-async function updateCrimes(){
+async function updateCrimes(visibleNeighborhoods){
     let hold = 'code=';
     let url = '/incidents?';
     let boxes = document.querySelectorAll('.codes');
@@ -177,12 +183,45 @@ async function updateCrimes(){
 
     hold = 'neighborhood=';
     boxes = document.querySelectorAll('.neigh');
+    let boxChecked = false;
+    let addedQuery = false;
     boxes.forEach( curr => {
-        if(curr.checked){
-            prevCond = true;
-            hold += neighborhoodMap.get(curr.id) + ',';
-        }
-    });
+        if(curr.checked){ boxChecked = true;}
+    })
+    boxes = document.querySelectorAll('.neigh');
+    if(boxChecked){
+        boxes.forEach( curr => {
+            if(curr.checked){
+                if(visibleNeighborhoods == undefined){
+                    prevCond = true;
+                    hold += neighborhoodMap.get(curr.id) + ',';
+                    addedQuery = true;
+                }
+                else if(visibleNeighborhoods != undefined && visibleNeighborhoods.includes(neighborhoodMap.get(curr.id))){
+                    prevCond = true;
+                    hold += neighborhoodMap.get(curr.id) + ',';
+                    addedQuery = true;
+                }
+            }
+        });
+    }
+    else { //no checked boxes, only display what is visible
+        boxes.forEach( curr => {
+            if(visibleNeighborhoods == undefined){
+                prevCond = true;
+                hold += neighborhoodMap.get(curr.id) + ',';
+                addedQuery = true;
+            }
+            else if(visibleNeighborhoods != undefined && visibleNeighborhoods.includes(neighborhoodMap.get(curr.id))){
+                prevCond = true;
+                hold += neighborhoodMap.get(curr.id) + ',';
+                addedQuery = true;
+            }
+        });
+    }
+    if(!addedQuery){
+        hold += "18,";
+    }
     if(hold !== 'neighborhood='){
         hold = hold.substring(0, hold.length - 1);
         url += hold + '&';
@@ -232,6 +271,7 @@ function locationLookupController(address, lat, lon){
         searchAddress(address).then((result)=> {
             updateMap(result[0], result[1]);
         }).catch((error)=> {
+            alert("Address does not turn up a valid search");
             console.log("Error: " + error);
         });
     }
@@ -318,6 +358,7 @@ function updateCrimeMarkers(data){
         marker.bindPopup(span);
         marker.addTo(markers);
     }).catch((error)=> {
+        alert("Address does not turn up a valid search");
         console.log("Error: " + error);
     });
     markers.addTo(map);
