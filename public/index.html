@@ -12,11 +12,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
-    <!-- Vue JS -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-
     <!-- Foundation -->
     <link rel="stylesheet" href="css/foundation/foundation.css">
+    <!-- Vue JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
     <!-- Application -->
     <link rel="stylesheet" href="css/style.css"/>
@@ -57,8 +56,164 @@
             <input class="button" type=submit value="Navigate" class="cell medium-3" style="height: 40px; margin-top: 25px;">
         </form>
     </div>
-    
 
+<<<<<<< HEAD
+    <h2 style="padding-left: 1%">Filters</h2>
+    <h4 style="padding-left: 4%;">Types</h4>
+
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Homicide/Murder">
+                <label for="Homicide/Murder">Homicide/Murder</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Rape">
+                <label for="Rape">Rape</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Robbery">
+                <label for="Robbery">Robbery</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Aggravated Assault">
+                <label for="Aggravated Assault">Aggravated Assault</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Burglary">
+                <label for="Burglary">Burglary</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Theft">
+                <label for="Theft">Theft</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Motor Theft">
+                <label for="Motor Theft">Motor Theft</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Assault">
+                <label for="Assault">Assault</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Arson">
+                <label for="Arson">Arson</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Damages">
+                <label for="Damages">Damages</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Narcotics">
+                <label for="Narcotics">Narcotics</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="codes" id="Other">
+                <label for="Other">Other</label>
+            </div>
+        </div>
+    </div>
+
+    <h4 style="padding-left: 4%;">Types</h4>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Capitol River">
+                <label for="Capitol River">Capitol River</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Como">
+                <label for="Como">Como</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Conway/Battlecreek/Highwood">
+                <label for="Conway/Battlecreek/Highwood">Conway/Battlecreek/Highwood</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Dayton's Bluff">
+                <label for="Dayton's Bluff">Dayton's Bluff</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Greater East Side">
+                <label for="Greater East Side">Greater East Side</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Hamline/Midway">
+                <label for="Hamline/Midway">Hamline/Midway</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Highland">
+                <label for="Highland">Highland</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Macalester-Groveland">
+                <label for="Macalester-Groveland">Macalester-Groveland</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="North End">
+                <label for="North End">North End</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Payne/Phalen">
+                <label for="Payne/Phalen">Payne/Phalen</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="St. Anthony">
+                <label for="St. Anthony">St. Anthony</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Summit Hill">
+                <label for="Summit Hill">Summit Hill</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Summit/University">
+                <label for="Summit/University">Summit/University</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Thomas/Dale(Frogtown)">
+                <label for="Thomas/Dale(Frogtown)">Thomas/Dale(Frogtown)</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="Union Park">
+                <label for="Union Park">Union Park</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="West Seventh">
+                <label for="West Seventh">West Seventh</label>
+            </div>
+            <div class="cell medium-3">
+                <input type="checkbox" class="neigh" id="West Side">
+                <label for="West Side">West Side</label>
+            </div>
+        </div>
+    </div>
+
+    <h4 style="padding-left: 4%;">Other Filters</h4>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell medium-6">
+                <label for="start_date">Start date:</label>
+                <input type="date" id="start_date"
+                    min="2014-08-14" max="2021-09-29">
+            </div>
+            <div class="cell medium-6">
+                <label for="end_date">End date:</label>
+                <input type="date" id="end_date"
+                    min="2014-08-14" max="2021-09-29">
+            </div>
+            <div class="cell medium-6">
+                <label for="start_time">Start Time</label>
+                <input type="time" id="start_time">
+            </div>
+            <div class="cell medium-6">
+                <label for="end_time">End Time</label>
+                <input type="time" id="end_time">
+            </div>
+            <div class="cell medium-6">
+                <label for="limit">Limit</label>
+                <input type="number" id="limit">
+            </div>
+=======
     <h2 style="padding-left: 1%;">Filters</h2>
     <div class="row">
         <div class="columns">
@@ -217,6 +372,7 @@
                             </div>
                        </li>
             </ul>
+>>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
         </div>
     </div>
 
@@ -230,9 +386,12 @@
             <div id="leafletmap"></div>
         </div>
 
-        <div class="reveal" id="legendModal" data-reveal>
-            <div class="legendElem" style="background-color: lightgreen; margin-top: 1.1rem;">Homicide/Murder</div>
-            <div class="legendElem" style="background-color: cyan;  margin-top: 1.1rem;">Rape</div>
+
+
+        <div style="padding-bottom: 2%;">
+            <h2 style="padding-left: 1%;">Data</h2>
+            <div class="legendElem" style="background-color: lightgreen;">Homicide/Murder</div>
+            <div class="legendElem" style="background-color: cyan;">Rape</div>
             <div class="legendElem" style="background-color: purple;">Robbery</div>
             <div class="legendElem" style="background-color: darkgray;">Aggravated Assault</div>
             <div class="legendElem" style="background-color: yellow;">Burglary</div>
@@ -243,24 +402,39 @@
             <div class="legendElem" style="background-color: green;">Damages</div>
             <div class="legendElem" style="background-color: coral;">Narcotics</div>
             <div class="legendElem" style="background-color: greenyellow;">Other</div>
-
-            <button class="close-button" data-close aria-label="Close modal" type="button">
-              <span aria-hidden="true">&times;</span>
-            </button>
         </div>
 
-        <h2 style="padding-left: 1%;">Data  <a class="button" data-open="legendModal">Legend</a> </h2>
-        <div style="margin-left: 2%; margin-right: 2%;">
-        <!-- <table class="unstriped" style="border-collapse: collapse;">
-            <thead>
+        <div style="margin-left: 5%; margin-right: 5%;">
+            <table id="firstTable">
+                <thead>
                 <tr>
-                    <th style="margin-right: 10px;">Case Number</th>
+                    <th>Case Number</th>
                     <th>Type</th>
-                    <th style="margin-right: 50px;">Neighborhood</th>
+                    <th>Neighborhood</th>
                     <th>Block</th>
-                    <th style="padding-right: 100px;">Date</th>
+                    <th>Date</th>
                     <th>Time</th>
                 </tr>
+<<<<<<< HEAD
+                </thead>
+                <tbody>
+                <tr v-for="row in rows" 
+                    v-bind:class="{'arson':row.style === 'arson', 'homicide': row.style === 'homicide','rape':row.style === 'rape','aggravated_assault':row.style==='aggravated_assault',
+                                   'burglary':row.style==='burglary','theft': row.style ==='theft','motor_theft': row.style === 'motor_theft','assault':row.style==='assault',
+                                   'narcotics': row.style==='narcotics','other':row.style==='other','robbery': row.style==='robbery', 'damages':row.style==='damages'}">
+                    <td>{{row.case_number}}</td>
+                    <td>{{row.incident_type}}</td>
+                    <td>{{row.neighborhood_name}}</td>
+                    <td>{{row.block}}</td>
+                    <td>{{row.date}}</td>
+                    <td>{{row.time}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+=======
             </thead>
             <tbody id="body" style="border: 1px solid gray;">
 
@@ -299,5 +473,6 @@
     <script type="application/javascript">
         $(document).foundation();
     </script>
+>>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 </body>
 </html>
