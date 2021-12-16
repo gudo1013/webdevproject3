@@ -7,8 +7,6 @@ let crimeIcon = L.icon({
 });
 
 let firstTable;
-let thirdTable;
-
 let neighborhood_markers = 
 [
     {location: [44.942068, -93.020521], marker: null},
@@ -87,7 +85,6 @@ function init() {
     firstTable = new Vue({
         el: '#firstTable',
         data: {
-            headers: ["case_number", "incident", "neighborhood_name", "block", "data", "time"],
             rows: []
         },
         methods:{
@@ -141,12 +138,17 @@ function init() {
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         updateMarkers(result);
-        firstTable.updateData(result);
+        result.forEach( (row) => {
+            row['style'] = getStyleClass(row.code);
+        });
+
+        updateCrimes();
         
     }).catch((error) => {
         console.error('Error:' + error);
     });
 
+    
 }
 
 function getJSON(url) {
@@ -249,15 +251,14 @@ async function updateCrimes(visibleNeighborhoods){
     }
 
     url = url.substring(0, url.length - 1);
-    console.log(url);
     let crimes = await getJSON(url);
-    //console.log(result);
-
-    console.log(crimes);
     //Vue.set(firstTable.data.rows, 0, crimes);
 
+    
+    crimes.forEach( crime => {
+        crime['style'] = getStyleClass(crime.code);
+    });
     firstTable.updateData(crimes)
-
     // updateTableRows(crimes);
     updateMarkers(crimes);
     //tableUpdate(crimes);
@@ -460,4 +461,44 @@ function updateTableRows(data){
             newRow.style = 'background-color: greenyellow;'; 
         }
     });
+}
+
+function getStyleClass(code)
+{
+    if(codeMap.get('Homicide/Murder').includes(code)){
+        return 'homicide';
+    }
+    else if(codeMap.get('Rape').includes(code)){
+        return 'rape';
+    }
+    else if(codeMap.get('Robbery').includes(code)){
+        return 'robbery';
+    }
+    else if(codeMap.get('Aggravated Assault').includes(code)){
+       return 'aggravated_assault';
+    }
+    else if(codeMap.get('Burglary').includes(code)){
+        return 'burglary';
+    }
+    else if(codeMap.get('Theft').includes(code)){
+        return 'theft';
+    }
+    else if(codeMap.get('Motor Theft').includes(code)){
+        return 'motor_theft';
+    }
+    else if(codeMap.get('Assault').includes(code)){
+        return 'assault';
+    }
+    else if(codeMap.get('Arson').includes(code)){
+        return 'arson';
+    }
+    else if(codeMap.get('Damages').includes(code)){
+        return 'damages';
+    }
+    else if(codeMap.get('Narcotics').includes(code)){
+        return 'narcotics'; 
+    }
+    else if(codeMap.get('Other').includes(code)){
+        return 'other'; 
+    }
 }

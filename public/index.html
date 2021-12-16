@@ -253,6 +253,7 @@
                     <th>Block</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Add to Map</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -266,6 +267,7 @@
                     <td>{{row.block}}</td>
                     <td>{{row.date}}</td>
                     <td>{{row.time}}</td>
+                    <td><button v-on:click = "updateCrimeMarkers(row)" >Add</button></td>
                 </tr>
                 </tbody>
             </table>
