@@ -7,11 +7,6 @@ let crimeIcon = L.icon({
 });
 
 let firstTable;
-<<<<<<< HEAD
-=======
-let thirdTable;
-
->>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 let neighborhood_markers = 
 [
     {location: [44.942068, -93.020521], marker: null},
@@ -140,7 +135,6 @@ function init() {
     //Default to getting the first 1000 records
     getJSON('/incidents').then((result) => {
         updateMarkers(result);
-<<<<<<< HEAD
         result.forEach( (row) => {
             row['style'] = getStyleClass(row.code);
         });
@@ -153,14 +147,6 @@ function init() {
     }).catch((error) => {
         console.error('Error:' + error);
     });
-=======
-        firstTable.updateData(result);
-        
-    }).catch((error) => {
-        console.error('Error:' + error);
-    });
-
->>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 }
 
 function getJSON(url) {
@@ -231,27 +217,13 @@ async function updateCrimes(){
 
     url = url.substring(0, url.length - 1);
     let crimes = await getJSON(url);
-<<<<<<< HEAD
     crimes.forEach( crime => {
         crime['style'] = getStyleClass(crime.code);
         console.log(crime);
     });
     firstTable.rows = crimes;
-=======
-    //console.log(result);
-
-    console.log(crimes);
-    //Vue.set(firstTable.data.rows, 0, crimes);
-
-    firstTable.updateData(crimes)
->>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 
     updateMarkers(crimes);
-<<<<<<< HEAD
-=======
-    //tableUpdate(crimes);
-    //updateCrimeMarkers(crimes);
->>>>>>> 9c9834e439d2fd8e7c9a5b69781b53d73bd783a7
 }
 
 function locationLookupController(address, lat, lon){
